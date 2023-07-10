@@ -1,0 +1,16 @@
+﻿using EventsGenerator.EventProcessors;
+using EventsGenerator.ExtraNeededClasses;
+using EventsGenerator.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EventsGenerator.EventProcessorsInterfaces
+{
+    public interface ICasualAndSpeedSkating
+    {
+        void GenerateEvents();
+    }
+}

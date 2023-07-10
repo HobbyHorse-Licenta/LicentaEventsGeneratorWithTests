@@ -1,0 +1,12 @@
+﻿{
+  "profiles": {
+    "EventsGenerator": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "HOBBYHORSE_API_BASE_URL": "https://localhost:7085"
+      }
+    }
+  }
+}
