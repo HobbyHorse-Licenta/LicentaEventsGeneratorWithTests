@@ -11,7 +11,7 @@ namespace EventsGenerator.Utils
     {
         public static string getStringDateFromTimeStamp(double timestamp)
         {
-            //gets the date as a printable string from a timestamp variable as double.
+            //gets the date as a printable string from a timestamp variable as double. ooopo
             DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds((long)timestamp);
             DateTime localDateTime = dateTimeOffset.LocalDateTime;
 
