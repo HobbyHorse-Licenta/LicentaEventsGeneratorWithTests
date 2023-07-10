@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore NuGet packages
-      run: dotnet restore
+      run: dotnet restore EventsGenerator/EventsGenerator.csproj
     - name: Build
       run: dotnet build --no-restore EventsGenerator/EventsGenerator.csproj
     # - name: Test
