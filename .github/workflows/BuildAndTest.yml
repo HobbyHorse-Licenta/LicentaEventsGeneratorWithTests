@@ -33,6 +33,19 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
-    - name: Testing
+    - name: Test
       run: dotnet test EventsGenerator.Tests/EventsGenerator.Tests.csproj
-    
+  
+  deploy:
+    name: Deploooy
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ needs.test.result == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "hobby-horse-generator-staging"
+          heroku_email: "alex99_pop@yahoo.com"
