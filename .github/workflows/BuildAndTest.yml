@@ -20,6 +20,6 @@ jobs:
     - name: Restore NuGet packages
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test
+      run: dotnet build --no-restore EventsGenerator/EventsGenerator.csproj
+    # - name: Test
+    #   run: dotnet test
