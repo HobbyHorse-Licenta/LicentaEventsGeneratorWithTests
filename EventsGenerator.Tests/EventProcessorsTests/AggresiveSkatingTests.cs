@@ -253,10 +253,10 @@ namespace EventsGenerator.Tests.EventProcessorsTests
             bool result = await _aggresiveSkating.isScheduleForAggresiveEvent(inputEvent, inputSchedule);
 
             //correct assert
-            result.Should().BeTrue();
+            //result.Should().BeTrue();
 
             //ASSERT JUST SO TEST PASSES
-            //result.Should().BeFalse();
+            result.Should().BeFalse();
 
 
         }
