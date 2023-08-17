@@ -10,7 +10,7 @@ namespace EventsGenerator.RabbitMQ
         private static IConnection connection;
         private static IModel _receiveChannel;
         private static IModel _sendChannel;
-        private static readonly string _url = "amqps://wghxkfhq:d6U85R6OZx-vcKlwzY6kSjWz5nI4r4oH@rat.rmq2.cloudamqp.com/wghxkfhq";
+        private static readonly string _url = "amqps://xgwmumwf:L-gk4f_j6E-607ZIFl4p01t2_GOceWsJ@rat.rmq2.cloudamqp.com/xgwmumwf";
         private RabbitMQConnection() { }
 
         public static IConnection GetConnection()
