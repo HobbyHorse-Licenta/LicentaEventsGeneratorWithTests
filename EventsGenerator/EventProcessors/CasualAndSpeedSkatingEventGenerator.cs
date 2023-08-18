@@ -42,6 +42,7 @@ namespace EventsGenerator.EventProcessors
 
                 foreach (Pairing pairing in pairings)
                 {
+                    Console.WriteLine($"Trying to create an event from pairing");
                     Event createdEvent = createEventFromPairing(pairing, allParkTrails);
                     if (createdEvent != null)
                     {

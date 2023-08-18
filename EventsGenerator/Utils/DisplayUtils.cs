@@ -63,6 +63,7 @@ namespace EventsGenerator.Utils
 
         public static void displaySchedulesAndUserData(List<Schedule> schedules)
         {
+            Console.WriteLine($"There are {schedules.Count} schedules");
             string info;
             foreach (Schedule schedule in schedules)
             {
