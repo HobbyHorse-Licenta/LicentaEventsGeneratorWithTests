@@ -24,17 +24,26 @@ namespace EventsGenerator.EventProcessors
             try
             {
                 List<Schedule> allSchedules = await _fetch.getAllSchedules();
+                int count = 0;
                 foreach (Schedule schedule in allSchedules)
                 {
                     //delete schedule if all days and timeframe is in the past
                     if (_processingUtils.scheduleIsExpired(schedule))
                     {
                         await _fetch.deleteSchedule(schedule.Id);
+                        count++;
                     }
                 }
+                
+                if(count != 0)
+                {
+                    Console.WriteLine($"Deleted {count} schedules");
+                }
+
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("Coudn't get schedules from DB in order to delete expired ones");
             }
         }
@@ -44,13 +53,20 @@ namespace EventsGenerator.EventProcessors
             try
             {
                 List<Event> allEvents = await _fetch.getAllEvents();
+                int count = 0;
                 foreach (Event evnt in allEvents)
                 {
                     //delete events if all days and timeframe is in the past
                     if (_processingUtils.eventIsExpired(evnt))
                     {
                         await _fetch.deleteEvent(evnt.Id);
+                        count++;
                     }
+                }
+
+                if (count != 0)
+                {
+                    Console.WriteLine($"Deleted {count} passed events");
                 }
             }
             catch (Exception ex)

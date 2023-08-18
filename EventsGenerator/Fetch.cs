@@ -164,7 +164,7 @@ namespace EventsGenerator
             }
             else
             {
-                throw new Exception("Couldn't get schedules");
+                throw new Exception($"Couldn't get schedules from url {url}");
             }
         }
 
