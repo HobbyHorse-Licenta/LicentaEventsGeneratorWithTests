@@ -212,6 +212,7 @@ namespace EventsGenerator.EventProcessors
 
         public  List<Pairing> findAllPairings(List<Schedule> schedules, List<ParkTrail> parkTrails)
         {
+            Console.WriteLine("About to search for pairings");
             //List<DemoSchedule> testSchedules = getHardcodedListOfSchedules();
             List<Pairing> result = new List<Pairing>();
 
