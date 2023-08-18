@@ -19,12 +19,14 @@ namespace EventsGenerator
         //private readonly SenderAndReceiver senderAndReceiver = new SenderAndReceiver();
         private readonly ISenderAndReceiver _senderAndReceiver;
         private readonly ICommonProcessor _commonProcessor;
+        private readonly ICasualAndSpeedSkating _casualAndSpeedSkating;
         public Worker(ILogger<Worker> logger, ISenderAndReceiver senderAndReceiver,
-            ICommonProcessor commonProcessor)
+            ICommonProcessor commonProcessor, ICasualAndSpeedSkating casualAndSpeedSkating)
         {
             _logger = logger;
             _senderAndReceiver = senderAndReceiver;
             _commonProcessor = commonProcessor;
+            _casualAndSpeedSkating = casualAndSpeedSkating;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,7 +37,7 @@ namespace EventsGenerator
                 Console.WriteLine("Starting maintenance cycle");
                 _commonProcessor.DeleteExpiredSchedules();
                 _commonProcessor.DeletePassedEvents();
-               // CasualAndSpeedSkating.GenerateEvents();
+                _casualAndSpeedSkating.GenerateEvents();
                 //AggresiveSkatingHandler.updateExistingEventsWithNewPossibleSkaters();
                 await Task.Delay(intervalInMinutes * 60 * 1000, stoppingToken);
             }
