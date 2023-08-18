@@ -220,7 +220,7 @@ namespace EventsGenerator.EventProcessors
             backtracking(schedules, result, currentPairing, parkTrails);
 
 
-            displayPairings(result);
+            //displayPairings(result);
 
 
             return result;
