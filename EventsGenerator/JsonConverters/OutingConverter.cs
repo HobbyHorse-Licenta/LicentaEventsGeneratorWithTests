@@ -14,7 +14,7 @@ namespace EventsGenerator.JsonConverters
             using var jsonDocument = JsonDocument.ParseValue(ref reader);
             JsonElement rootElement = jsonDocument.RootElement;
 
-            JsonElement trailElement = rootElement.GetProperty("trail");
+            JsonElement trailElement = rootElement.GetProperty("Trail");
             
             Trail trail = null;
             try
@@ -125,7 +125,7 @@ namespace EventsGenerator.JsonConverters
             if(value.Trail.GetType() == typeof(ParkTrail))
             {
                 ParkTrail parkTrail = (ParkTrail)value.Trail;
-                writer.WriteStartObject("trail");
+                writer.WriteStartObject("Trail");
 
                 writer.WriteString("id", parkTrail.Id);
                 writer.WriteString("name", parkTrail.Name);
@@ -145,7 +145,7 @@ namespace EventsGenerator.JsonConverters
             else
             {
                 CustomTrail customTrail = (CustomTrail)value.Trail;
-                writer.WriteStartObject("trail");
+                writer.WriteStartObject("Trail");
 
                     writer.WriteString("id", customTrail.Id);
                     writer.WriteString("name", customTrail.Name);
@@ -176,6 +176,8 @@ namespace EventsGenerator.JsonConverters
             }
 
             writer.WriteEndObject();
+
+            Console.WriteLine("IES DIN SERIALIZATORUL CUSTOM DE OUTING");
         }
 
     }

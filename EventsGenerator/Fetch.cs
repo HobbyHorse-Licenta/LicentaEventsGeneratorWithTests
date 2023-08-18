@@ -78,6 +78,7 @@ namespace EventsGenerator
                     //options.Converters.Add(new EventConverter());
                     //options.Converters.Add(new OutingConverter());
                     var jsonData = JsonSerializer.Serialize(obj);
+                    Console.WriteLine(jsonData);
                     var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
                     //encoded in base32
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "JBXWEYTZJBXXE43FI5SW4ZLSMF2G64Q=");

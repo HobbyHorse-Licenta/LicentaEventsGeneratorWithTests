@@ -51,8 +51,7 @@ namespace EventsGenerator.EventProcessors
                             //if it doesn't exist already
                             try
                             {
-                                Console.WriteLine($"CREATED EVENT\n{JsonConvert.SerializeObject(createdEvent)}");
-                                Console.WriteLine("Posting created event");
+                                Console.WriteLine("Posting created event:\n");
                                 _fetch.PostEvent(createdEvent);
                             }
                             catch (Exception ex)

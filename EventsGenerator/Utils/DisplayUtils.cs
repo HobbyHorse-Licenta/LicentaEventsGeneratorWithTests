@@ -68,6 +68,8 @@ namespace EventsGenerator.Utils
             foreach (Schedule schedule in schedules)
             {
                 info = "";
+                info += $"ScheduleID: {schedule.Id}\n";
+
                 if (schedule.SkateProfile != null)
                 {
                     if (schedule.SkateProfile.User != null)

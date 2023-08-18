@@ -18,9 +18,9 @@ namespace EventsGenerator.EventProcessors
     public class CasualAndSpeedSkatingPairingsFinder : ICasualAndSpeedSkatingPairingsFinder
     {
         public readonly IProcessingUtils _processingUtils;
-        public CasualAndSpeedSkatingPairingsFinder(IProcessingUtils _processingUtils)
+        public CasualAndSpeedSkatingPairingsFinder(IProcessingUtils processingUtils)
         {
-            _processingUtils = _processingUtils;
+            _processingUtils = processingUtils;
         }
         public bool sameUser(Schedule schedule1, Schedule schedule2)
         {
@@ -56,12 +56,13 @@ namespace EventsGenerator.EventProcessors
             Schedule lastScheduleInPairing = schedules.ElementAt(pairing.ElementAt(lastElementIndex));
             Schedule firstScheduleInPairing = schedules.ElementAt(pairing.ElementAt(0));
 
+            if (firstScheduleInPairing.SkateProfile.SkatePracticeStyle == "Aggresive Skating")
+                return false;
 
             if (usersInPairing < 2)
                 return true;
 
             List<Schedule> pairingSchedules = getSchedulePairingFromIndexPairing(schedules, pairing);
-
 
             ////Schedules should have at least a common day between them/////
             List<Day> commonDays = _processingUtils.getCommonDaysFromSchedules(pairingSchedules);
@@ -220,7 +221,7 @@ namespace EventsGenerator.EventProcessors
             backtracking(schedules, result, currentPairing, parkTrails);
 
 
-            //displayPairings(result);
+            displayPairings(result);
 
 
             return result;
@@ -233,12 +234,18 @@ namespace EventsGenerator.EventProcessors
             }
             foreach (Pairing pairing in pairings)
             {
-                string display = "(";
+                string display = "\n(";
                 foreach (Schedule schedule in pairing.Schedules)
                 {
                     display += schedule.SkateProfile.User.Name + ", ";
                 }
-                display += ")";
+                display += ")\n";
+                display += "(";
+                foreach (Schedule schedule in pairing.Schedules)
+                {
+                    display += schedule.Id + ", ";
+                }
+                display += ")\n";
                 Console.WriteLine(display);
             }
         }

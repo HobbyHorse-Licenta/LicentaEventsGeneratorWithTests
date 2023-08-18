@@ -35,7 +35,7 @@ namespace EventsGenerator.EventProcessors
 
                     if (allSchedules != null && allParkTrails != null && allSchedules.Count > 0 && allParkTrails.Count > 0)
                     {
-                        //DisplayUtils.displaySchedulesAndUserData(allSchedules);
+                        DisplayUtils.displaySchedulesAndUserData(allSchedules);
                         List<Pairing> pairings = _casualAndSpeedSkatingPairingsFinder.findAllPairings(allSchedules, allParkTrails);
 
                         _casualAndSpeedSkatingEventGenerator.createEvents(pairings);
