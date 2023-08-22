@@ -66,12 +66,12 @@ namespace EventsGenerator.JsonConverters
 
 
             //////NEWLY ADDED////
-            JsonElement votedDay;
-            if (rootElement.TryGetProperty("votedDay", out votedDay) == true)
-            {
-                outing.VotedDay = JsonConvert.DeserializeObject<Day>(rootElement.GetProperty("votedDay").GetRawText());
-            }
-            else outing.VotedDay = null;
+            //JsonElement votedDay;
+            //if (rootElement.TryGetProperty("votedDay", out votedDay) == true)
+            //{
+            //    outing.VotedDay = JsonConvert.DeserializeObject<Day>(rootElement.GetProperty("votedDay").GetRawText());
+            //}
+            //else outing.VotedDay = null;
 
             JsonElement votedStartTime;
             if (rootElement.TryGetProperty("votedStartTime", out votedStartTime) == true)
@@ -100,13 +100,13 @@ namespace EventsGenerator.JsonConverters
             //////NEWLY ADDED////
             writer.WriteNumber("votedStartTime", value.VotedStartTime);
    
-            if(value.VotedDay != null)
-            {
-                writer.WriteStartObject("votedDay");
-                writer.WriteString("id", value.VotedDay.Id);
-                writer.WriteNumber("dayOfMonth", value.VotedDay.DayOfMonth);
-                writer.WriteEndObject();
-            }
+            //if(value.VotedDay != null)
+            //{
+            //    writer.WriteStartObject("votedDay");
+            //    writer.WriteString("id", value.VotedDay.Id);
+            //    writer.WriteNumber("dayOfMonth", value.VotedDay.DayOfMonth);
+            //    writer.WriteEndObject();
+            //}
            
             ///////////////////
 

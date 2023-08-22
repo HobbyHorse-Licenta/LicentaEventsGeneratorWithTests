@@ -94,11 +94,11 @@ namespace EventsGenerator.EventProcessors
                         EndTime = aggresiveEvent.Outing.EndTime, //intersection between this and joined schedules
                         Days = aggresiveEvent.Days, //intersection between this and joined schedules
                         VotedStartTime = aggresiveEvent.Outing.StartTime,
-                        VotedDay = new Day
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            DayOfMonth = aggresiveEvent.Days[0].DayOfMonth
-                        },
+                        //VotedDay = new Day
+                        //{
+                        //    Id = Guid.NewGuid().ToString(),
+                        //    DayOfMonth = aggresiveEvent.Days[0].DayOfMonth
+                        //},
                         SkatePracticeStyle = aggresiveEvent.Outing.SkatePracticeStyle, //not changing
                         Trail = aggresiveEvent.Outing.Trail, //not changing
                         Booked = aggresiveEvent.Outing.Booked //not changing
