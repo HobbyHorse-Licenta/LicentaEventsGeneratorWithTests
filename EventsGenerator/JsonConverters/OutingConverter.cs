@@ -136,6 +136,17 @@ namespace EventsGenerator.JsonConverters
                     int capacityNumber = (int)parkTrail.Capacity;
                     writer.WriteNumber("capacity", capacityNumber);
                 }
+
+                //ADDED NOW
+                writer.WriteStartObject("location");
+                    writer.WriteString("id", parkTrail.Location.Id);
+                    writer.WriteString("name", parkTrail.Location.Name);
+                    writer.WriteString("imageUrl", parkTrail.Location.ImageUrl);
+                    writer.WriteNumber("lat", parkTrail.Location.Lat);
+                    writer.WriteNumber("long", parkTrail.Location.Long);
+                writer.WriteEndObject();
+                ///
+
                 writer.WriteNumber("openingHour", parkTrail.OpeningHour);
                 writer.WriteNumber("closingHour", parkTrail.ClosingHour);
 
