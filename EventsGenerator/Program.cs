@@ -13,7 +13,6 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IFetch, Fetch>();
         services.AddSingleton<IProcessingUtils, ProcessingUtils>();
-
         services.AddSingleton<IAggresiveSkatingEventProcessor, AggresiveSkatingEventProcessor>();
         services.AddSingleton<IAggresiveSkatingController, AggresiveSkatingController>();
         services.AddSingleton<IAggresiveSkating, AggresiveSkating>();

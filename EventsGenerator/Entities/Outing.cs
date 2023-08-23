@@ -12,7 +12,8 @@ namespace EventsGenerator.Entities
         public readonly IProcessingUtils _processingUtils;
         public Outing()
         {
-
+            //quick fix
+            _processingUtils = new ProcessingUtils();
         }
         public Outing(IProcessingUtils processingUtils)
         {
