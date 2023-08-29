@@ -122,7 +122,7 @@ namespace EventsGenerator.EventProcessors
             double startHour = 0;
             foreach (Schedule schedule in schedules)
             {
-                if (schedule.StartTime > startHour)
+                if (_processingUtils.compareTimeStamps(schedule.StartTime, startHour) > 0 )
                     startHour = schedule.StartTime;
             }
 
@@ -130,10 +130,10 @@ namespace EventsGenerator.EventProcessors
         }
         public  double getEndHourFromPairing(List<Schedule> schedules)
         {
-            double endHour = double.MaxValue;
+            double endHour = schedules[0].EndTime;
             foreach (Schedule schedule in schedules)
             {
-                if (schedule.EndTime < endHour)
+                if (_processingUtils.compareTimeStamps(schedule.EndTime, endHour) < 0)
                     endHour = schedule.EndTime;
             }
             return endHour;

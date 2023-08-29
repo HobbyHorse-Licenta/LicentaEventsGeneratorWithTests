@@ -37,6 +37,7 @@ namespace EventsGenerator
                 Console.WriteLine("Starting maintenance cycle");
                 _commonProcessor.DeleteExpiredSchedules();
                 _commonProcessor.DeletePassedEvents();
+
                 _casualAndSpeedSkating.GenerateEvents();
                 //AggresiveSkatingHandler.updateExistingEventsWithNewPossibleSkaters();
                 await Task.Delay(intervalInMinutes * 60 * 1000, stoppingToken);
