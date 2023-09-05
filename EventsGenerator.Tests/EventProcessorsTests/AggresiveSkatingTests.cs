@@ -229,34 +229,33 @@ namespace EventsGenerator.Tests.EventProcessorsTests
             inputEvent.Outing = outing;
 
 
-            A.CallTo(() => _processingUtils.getAggresiveEventsOwnerSkateProfileId(inputEvent)).Returns(eventOwnerSkateProfileId);
-            
-            A.CallTo(() => _processingUtils.scheduleOwnerIsAlsoEventOwner(inputSchedule, inputEvent)).Returns(false);
-            A.CallTo(() => _fetch.getUserWithBasicInfo(eventOwnerSkateProfileId)).Returns(eventOwner);
-            A.CallTo(() => _fetch.getUserWithBasicInfo(scheduleSkateProfile.UserId)).Returns(scheduleOwner);
+
+            A.CallTo(() => _processingUtils.getAggresiveEventsOwnerSkateProfileId(null)).WithAnyArguments().Returns(eventOwnerSkateProfileId);
+
+            A.CallTo(() => _processingUtils.scheduleOwnerIsAlsoEventOwner(null, null)).WithAnyArguments().Returns(false);
+            A.CallTo(() => _fetch.getUserWithBasicInfo(null)).WithAnyArguments().Returns(eventOwner);
+            A.CallTo(() => _fetch.getUserWithBasicInfo(null)).WithAnyArguments().Returns(scheduleOwner);
 
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleGenderCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null,null,null,null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleAgeCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleTimeCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleDaysCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleInRangeForCustomTrail(
-                (CustomTrail)inputEvent.Outing.Trail, inputSchedule)).Returns(true);
+                null,null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleExperienceCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
 
 
             //act
             bool result = await _aggresiveSkating.isScheduleForAggresiveEvent(inputEvent, inputSchedule);
 
             //correct assert
-            //result.Should().BeTrue();
+            result.Should().BeTrue();
 
-            //ASSERT JUST SO TEST PASSES
-            result.Should().BeFalse();
 
 
         }
@@ -285,24 +284,24 @@ namespace EventsGenerator.Tests.EventProcessorsTests
             inputEvent.Outing = outing;
 
 
-            A.CallTo(() => _processingUtils.getAggresiveEventsOwnerSkateProfileId(inputEvent)).Returns(eventOwnerSkateProfileId);
+            A.CallTo(() => _processingUtils.getAggresiveEventsOwnerSkateProfileId(null)).WithAnyArguments().Returns(eventOwnerSkateProfileId);
 
-            A.CallTo(() => _processingUtils.scheduleOwnerIsAlsoEventOwner(inputSchedule, inputEvent)).Returns(false);
-            A.CallTo(() => _fetch.getUserWithBasicInfo(eventOwnerSkateProfileId)).Returns(eventOwner);
-            A.CallTo(() => _fetch.getUserWithBasicInfo(scheduleSkateProfile.UserId)).Returns(scheduleOwner);
+            A.CallTo(() => _processingUtils.scheduleOwnerIsAlsoEventOwner(null,null)).WithAnyArguments().Returns(false);
+            A.CallTo(() => _fetch.getUserWithBasicInfo(null)).WithAnyArguments().Returns(eventOwner);
+            A.CallTo(() => _fetch.getUserWithBasicInfo(null)).WithAnyArguments().Returns(scheduleOwner);
 
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleGenderCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleAgeCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null,null,null,null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleTimeCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(false);
+                null, null, null, null)).WithAnyArguments().Returns(false);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleDaysCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleInRangeForCustomTrail(
-                (CustomTrail)inputEvent.Outing.Trail, inputSchedule)).Returns(true);
+                null, null)).WithAnyArguments().Returns(true);
             A.CallTo(() => _aggresiveSkatingEventProcessor.isScheduleExperienceCompatibleWithEvent(
-                inputEvent, eventOwner, inputSchedule, scheduleOwner)).Returns(true);
+                null, null, null, null)).WithAnyArguments().Returns(true);
 
 
             //act

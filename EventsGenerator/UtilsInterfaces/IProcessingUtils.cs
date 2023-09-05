@@ -13,9 +13,8 @@ namespace EventsGenerator.UtilsInterfaces
 
         int compareTimeStamps(double timestamp1, double timestamp2);
         bool schedulesHaveCloseExperienceLevels(Schedule schedule1, Schedule schedule2);
-
-        bool areTimeCompatible(Schedule schedule1, Schedule schedule2);
-        bool areAllSchedulesTimeCompatible(List<Schedule> schedules, List<int> pairing);
+        Task<bool> areTimeCompatible(Schedule schedule1, Schedule schedule2);
+        Task<bool> areAllSchedulesTimeCompatible(List<Schedule> schedules, List<int> pairing);
         List<int> getDaysForEntireWeek();
         bool areAgeCompatible(Schedule schedule1, Schedule schedule2);
         bool scheduleOwnerIsAlsoEventOwner(Schedule schedule, Event evnt);
@@ -26,6 +25,8 @@ namespace EventsGenerator.UtilsInterfaces
         List<Day> getCommonDaysBetweenScheduleAndEvent(Schedule schedule, Event evnt);
 
         string getUsersAsStringFromSchedules(List<Schedule> schedules);
+        Task<List<Schedule>> GetSchedulesOfEvent(Event evnt);
+        
 
         List<SkateProfile> gettingSkateProfilesFromSchedules(List<Schedule> schedules);
 

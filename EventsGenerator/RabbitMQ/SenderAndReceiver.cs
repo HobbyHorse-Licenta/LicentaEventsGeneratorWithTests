@@ -34,7 +34,6 @@ namespace EventsGenerator.RabbitMQ
         }
         public void PublishString(string message)
         {
-            Console.WriteLine("SENDING BACK TO THE API THE MESSAGE THROUGH THE QUEUE");
             var body = Encoding.UTF8.GetBytes(message);
             _sendChannel.BasicPublish(exchange: "",
                                  routingKey: sendQueueName,
@@ -71,7 +70,6 @@ namespace EventsGenerator.RabbitMQ
             switch (instructionMessage)
             {
                 case Messages.createAggresiveEvent:
-                    Console.WriteLine("Am intrat pe branchul din switch");
                     var aggresiveEventJson = json.Substring($"{Messages.createAggresiveEvent} ".Length);
                     await _aggresiveSkatingEventHandler.createAggresiveEventFromJson(aggresiveEventJson);
                     break;

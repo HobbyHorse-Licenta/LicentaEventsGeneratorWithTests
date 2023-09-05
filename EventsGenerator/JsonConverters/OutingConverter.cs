@@ -188,7 +188,6 @@ namespace EventsGenerator.JsonConverters
 
             writer.WriteEndObject();
 
-            Console.WriteLine("IES DIN SERIALIZATORUL CUSTOM DE OUTING");
         }
 
     }

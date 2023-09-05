@@ -31,6 +31,8 @@ namespace EventsGenerator
 
         Task deleteEvent(string eventId);
 
+        Task<List<Event>> getAllEventsUserParticipatesTo(string userId);
+
         Task<List<SkateProfile>> getAllSkateProfiles();
 
         Task<SkateProfile> getSkateProfile(string skateProfileId);

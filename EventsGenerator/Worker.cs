@@ -33,7 +33,7 @@ namespace EventsGenerator
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                int intervalInMinutes = 1; //every 3 minutes this functions are executed
+                int intervalInMinutes = 1; //every 1 minute this functions are executed
                 Console.WriteLine("Starting maintenance cycle");
                 _commonProcessor.DeleteExpiredSchedules();
                 _commonProcessor.DeletePassedEvents();

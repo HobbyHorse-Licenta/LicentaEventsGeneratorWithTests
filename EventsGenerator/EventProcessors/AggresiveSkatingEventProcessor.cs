@@ -99,7 +99,7 @@ namespace EventsGenerator.EventProcessors
             }
             else return false;
         }
-        public bool isScheduleTimeCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner)
+        public async Task<bool> isScheduleTimeCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner)
         {
            
             //put event prefrences and event owner data as a schedule mockup
@@ -108,7 +108,8 @@ namespace EventsGenerator.EventProcessors
                 StartTime = evnt.Outing.StartTime,
                 EndTime = evnt.Outing.EndTime,
             };
-            if (_processingUtils.areTimeCompatible(mockSchedule, schedule) == true)
+            bool timeCompatible = await _processingUtils.areTimeCompatible(mockSchedule, schedule);
+            if (timeCompatible == true)
             {
                 return true;
             }
@@ -214,7 +215,7 @@ namespace EventsGenerator.EventProcessors
 
             return filteredSchedules;
         }
-        public List<Schedule> getSchedulesTimeCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules)
+        public async Task<List<Schedule>> getSchedulesTimeCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules)
         {
             List<Schedule> filteredSchedules = new List<Schedule>();
 
@@ -226,7 +227,8 @@ namespace EventsGenerator.EventProcessors
                     StartTime = aggresiveEvent.Outing.StartTime,
                     EndTime = aggresiveEvent.Outing.EndTime,
                 };
-                if (_processingUtils.areTimeCompatible(mockSchedule, schedule) == true)
+                bool timeCompatible = await _processingUtils.areTimeCompatible(mockSchedule, schedule);
+                if (timeCompatible == true)
                 {
                     filteredSchedules.Add(schedule);
                 }

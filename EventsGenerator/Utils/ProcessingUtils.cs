@@ -13,6 +13,12 @@ namespace EventsGenerator.Utils
 {
     public class ProcessingUtils : IProcessingUtils
     {
+        public readonly IFetch _fetch;
+        public ProcessingUtils()
+        {
+            _fetch = new Fetch();
+
+        }
         public bool areGenderCompatible(Schedule schedule1, Schedule schedule2)
         {
             if (schedule1.Gender != "Mixed")
@@ -59,36 +65,97 @@ namespace EventsGenerator.Utils
             return true;
         }
 
-
-        public bool areTimeCompatible(Schedule schedule1, Schedule schedule2)
+        /// /////// 
+        private List<(double, double)> removeHourRanges(double originalStartTime, double originalEndTime, List<(double, double)> removalRanges)
         {
+            List<(double, double)> result = new List<(double, double)>();
+
+            result.Add((originalStartTime, originalEndTime));
+
+            foreach (var removalRange in removalRanges)
+            {
+                List<(double, double)> newResult = new List<(double, double)>();
+
+                foreach (var existingRange in result)
+                {
+                    // Check if removal range overlaps with existing range
+                    if (removalRange.Item2 <= existingRange.Item1 || removalRange.Item1 >= existingRange.Item2)
+                    {
+                        //no overlap, keep existing range
+                        newResult.Add(existingRange);
+                    }
+                    else
+                    {
+                        //overlap
+                        if (removalRange.Item1 > existingRange.Item1)
+                        {
+                            newResult.Add((existingRange.Item1, removalRange.Item1));
+                        }
+
+                        if (removalRange.Item2 < existingRange.Item2)
+                        {
+                            newResult.Add((removalRange.Item2, existingRange.Item2));
+                        }
+                    }
+                }
+
+                result = newResult;
+            }
+
+            return result;
+        }
+        public async Task<bool> areTimeCompatible(Schedule schedule1, Schedule schedule2)
+        {
+            List<Event> eventsOfUser1 = await _fetch.getAllEventsUserParticipatesTo(schedule1.SkateProfile.UserId);
+            List<Event> eventsOfUser2 = await _fetch.getAllEventsUserParticipatesTo(schedule2.SkateProfile.UserId);
+            
             //if ( schedule1.EndTime < schedule2.StartTime || schedule2.EndTime < schedule1.StartTime)
             if (compareTimeStamps(schedule1.EndTime, schedule2.StartTime) < 0 || compareTimeStamps(schedule2.EndTime, schedule1.StartTime) < 0)
                 return false;
             else return true;
         }
-        public bool areAllSchedulesTimeCompatible(List<Schedule> schedules, List<int> pairing)
+        public async Task<bool> areAllSchedulesTimeCompatible(List<Schedule> schedules, List<int> pairing)
         {
-            double maxStartTime = 0;
-            double minEndTime = double.MaxValue;
+
+            List<Schedule> schedulesToCheck = new List<Schedule>();
 
             foreach (int scheduleIndex in pairing)
             {
-                Schedule schedule = schedules[scheduleIndex];
-                double startTime = getTimeAsDoubleFromTimestamp(schedule.StartTime);
-                double endTime = getTimeAsDoubleFromTimestamp(schedule.EndTime);
-
-                if (startTime > maxStartTime)
-                    maxStartTime = startTime;
-
-                if (endTime < minEndTime)
-                    minEndTime = endTime;
+                schedulesToCheck.Add(schedules[scheduleIndex]);
             }
 
-            if (maxStartTime > minEndTime)
-                return false;
+            double maxStartTime = 0;
+            double minEndTime = double.MaxValue;
+
+            for(int i = 0; i < schedulesToCheck.Count - 1; i++)
+            {
+                for (int j = i + 1; j < schedulesToCheck.Count; j++)
+                {
+                    bool timeCompatible = await areTimeCompatible(schedulesToCheck[i], schedulesToCheck[j]);
+                    if (timeCompatible == false)
+                        return false;
+                }
+            }
 
             return true;
+
+            //foreach (int scheduleIndex in pairing)
+            //{
+            //    Schedule schedule = schedules[scheduleIndex];
+            //    double startTime = getTimeAsDoubleFromTimestamp(schedule.StartTime);
+            //    double endTime = getTimeAsDoubleFromTimestamp(schedule.EndTime);
+
+            //    if (startTime > maxStartTime)
+            //        maxStartTime = startTime;
+
+            //    if (endTime < minEndTime)
+            //        minEndTime = endTime;
+            //}
+
+            //if (maxStartTime > minEndTime)
+            //    return false;
+
+            //return true;
         }
         public List<int> getDaysForEntireWeek()
         {
@@ -241,6 +308,37 @@ namespace EventsGenerator.Utils
             }
 
             return res;
+        }
+
+
+        public async Task<List<Schedule>> GetSchedulesOfEvent(Event evnt)
+        {
+            List<string> scheduleIds = new List<string>();
+
+            if (evnt != null && evnt.ScheduleRefrences != null && evnt.ScheduleRefrences.Count > 0)
+            {
+                foreach (ScheduleRefrence scheduleRef in evnt.ScheduleRefrences)
+                {
+                    scheduleIds.Add(scheduleRef.ScheduleId);
+                }
+
+                //get all schedules with obtained ids
+                List<Schedule> allSchedules = await _fetch.getAllSchedules();
+
+                List<Schedule> schedulesOfEvent = new List<Schedule>();
+                foreach(Schedule existingSchedule in allSchedules)
+                {
+
+                    bool scheduleBelongsToEvent = scheduleIds.Any(scheduleId => String.Equals(scheduleId, existingSchedule.Id));
+                    if(scheduleBelongsToEvent == true)
+                    {
+                        schedulesOfEvent.Add(existingSchedule);
+                    }
+                }
+
+                return schedulesOfEvent;
+            }
+            else return new List<Schedule>();
         }
 
         public List<SkateProfile> gettingSkateProfilesFromSchedules(List<Schedule> schedules)

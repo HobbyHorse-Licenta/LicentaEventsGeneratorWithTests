@@ -38,7 +38,7 @@ namespace EventsGenerator.EventProcessors
             }
             return pairingSchedules;
         }
-        public  bool isAValidPairing(List<Schedule> schedules, List<int> pairing, List<ParkTrail> parkTrails)
+        public  async Task<bool> isAValidPairing(List<Schedule> schedules, List<int> pairing, List<ParkTrail> parkTrails)
         {
             //filter by skills - no
 
@@ -50,6 +50,8 @@ namespace EventsGenerator.EventProcessors
             //filter by days - done
             //filter by startTime filter by endTime - done
             //filter by maximumNrOFPartners - done
+
+            //check if the new Schedule is not exhausted already
 
             int lastElementIndex = pairing.Count - 1;
             int usersInPairing = pairing.Count;
@@ -119,7 +121,8 @@ namespace EventsGenerator.EventProcessors
             }
 
             /////All schedules should be time compatible
-            if (_processingUtils.areAllSchedulesTimeCompatible(schedules, pairing) == false)
+            bool allSchedulesTimeCompatible = await _processingUtils.areAllSchedulesTimeCompatible(schedules, pairing);
+            if (allSchedulesTimeCompatible == false)
             {
                 Console.WriteLine($"Users {_processingUtils.getUsersAsStringFromSchedules(pairingSchedules)} are not time compatible");
                 return false;
@@ -154,6 +157,7 @@ namespace EventsGenerator.EventProcessors
                 return false;
             }
             /////////
+            ///
 
             return true;
 
@@ -173,27 +177,15 @@ namespace EventsGenerator.EventProcessors
             };
         }
 
-        //public  bool existEventWithThisPairing(List<Schedule> schedules, List<int> pairing, List<Event> existingEvents)
-        //{
-        //    List<Schedule> pairingSchedules = getSchedulePairingFromIndexPairing(schedules, pairing);
-
-        //    foreach(Event evnt in existingEvents)
-        //    {
-        //        //check if event has this pairing
-        //        foreach()
-        //    }
-
-        //    return false;
-
-        //}
-        public  void backtracking(List<Schedule> schedules, List<Pairing> pairings, List<int> currentPairing, List<ParkTrail> parkTrails)
+        public async void backtracking(List<Schedule> schedules, List<Pairing> pairings, List<int> currentPairing, List<ParkTrail> parkTrails)
         {
             for (int scheduleIndex = 0; scheduleIndex < schedules.Count; scheduleIndex++)
             {
 
                 currentPairing.Add(scheduleIndex);
 
-                if (isAValidPairing(schedules, currentPairing, parkTrails) == true)
+                bool validPairing = await isAValidPairing(schedules, currentPairing, parkTrails);
+                if (validPairing == true)
                 {
                     //stop condition
                     int usersInPairing = currentPairing.Count;
@@ -214,7 +206,6 @@ namespace EventsGenerator.EventProcessors
         public  List<Pairing> findAllPairings(List<Schedule> schedules, List<ParkTrail> parkTrails)
         {
             Console.WriteLine("About to search for pairings");
-            //List<DemoSchedule> testSchedules = getHardcodedListOfSchedules();
             List<Pairing> result = new List<Pairing>();
 
             List<int> currentPairing = new List<int>();
@@ -249,87 +240,6 @@ namespace EventsGenerator.EventProcessors
                 Console.WriteLine(display);
             }
         }
-        public  List<DemoSchedule> getHardcodedListOfSchedules()
-        {
-            return null;
-            //var monday = new Day() { MinimumForm = "M", ShortForm = "Mon", LongForm = "Monday", Index = 1};
-            //var tuesday = new Day() { MinimumForm = "T", ShortForm = "Tue", LongForm = "Tuesday", Index = 2};
-            //var wednesday = new Day() { MinimumForm = "W", ShortForm = "Wed", LongForm = "Wednesday", Index = 3};
-            //var thursday = new Day() { MinimumForm = "T", ShortForm = "Thu", LongForm = "Thursday", Index = 4};
-            //var friday = new Day() { MinimumForm = "F", ShortForm = "Fri", LongForm = "Friday", Index = 5}; 
-            //var saturday = new Day() { MinimumForm = "S", ShortForm = "Sat", LongForm = "Saturday", Index = 6}; 
-            //var sunday = new Day() { MinimumForm = "S", ShortForm = "Sun", LongForm = "Sunday", Index = 7};
-
-
-
-            //return new List<DemoSchedule>()
-            //{
-            //    new DemoSchedule()
-            //    {
-            //        Id = "User1",
-            //        StartTime = 20,
-            //        EndTime = 40,
-            //        UserAge = 15,
-            //        UserGender = "Male",
-            //        Days = new List<Day> { monday, tuesday },
-            //        GenderAllowance = "Male",
-            //        MinimumAge = 10,
-            //        MaximumAge = 30,
-            //        MaxNumberOfPeople = 3,
-            //    },
-            //    new DemoSchedule()
-            //    {
-            //        Id = "User2",
-            //        StartTime = 20,
-            //        EndTime = 30,
-            //        UserAge = 15,
-            //        UserGender = "Male",
-            //        Days = new List<Day> { monday, tuesday, wednesday },
-            //        GenderAllowance = "Female",
-            //        MinimumAge = 10,
-            //        MaximumAge = 30,
-            //        MaxNumberOfPeople = 2,
-            //    },
-            //    new DemoSchedule()
-            //    {
-            //        Id = "User3",
-            //        StartTime = 28,
-            //        EndTime = 40,
-            //        UserAge = 15,
-            //        UserGender = "Male",
-            //        Days = new List<Day> { wednesday },
-            //        GenderAllowance = "Male",
-            //        MinimumAge = 10,
-            //        MaximumAge = 30,
-            //        MaxNumberOfPeople = 3,
-            //    },
-            //    new DemoSchedule()
-            //    {
-            //        Id = "User4",
-            //        StartTime = 10,
-            //        EndTime = 40,
-            //        UserAge = 22,
-            //        UserGender = "Male",
-            //        Days = new List<Day> { wednesday, thursday, friday },
-            //        GenderAllowance = "Male",
-            //        MinimumAge = 10,
-            //        MaximumAge = 30,
-            //        MaxNumberOfPeople = 3,
-            //    },
-            //    new DemoSchedule()
-            //    {
-            //        Id = "User5",
-            //        StartTime = 20,
-            //        EndTime = 30,
-            //        UserAge = 15,
-            //        UserGender = "Male",
-            //        Days = new List<Day> { monday, tuesday, wednesday },
-            //        GenderAllowance = "Female",
-            //        MinimumAge = 10,
-            //        MaximumAge = 30,
-            //        MaxNumberOfPeople = 2,
-            //    }
-            //};
-        }
+       
     }
 }

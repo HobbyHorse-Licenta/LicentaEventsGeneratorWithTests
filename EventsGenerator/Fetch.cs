@@ -27,17 +27,8 @@ namespace EventsGenerator
     {
         private readonly static string apiUrl = Environment.GetEnvironmentVariable("HOBBYHORSE_API_BASE_URL");
 
-       // private readonly static bool apiInDevelopment = false;
         static Fetch()
         {
-            //if (apiInDevelopment == true)
-            //{
-            //    apiUrl = "https://localhost:7085";
-            //}
-            //else
-            //{
-            //    apiUrl = "https://hobby-horse-api.herokuapp.com";
-            //}
         }
 
         public async Task<string> makeGetRequest(string url)
@@ -74,9 +65,6 @@ namespace EventsGenerator
             {
                 try
                 {
-                    //JsonSerializerOptions options = new JsonSerializerOptions();
-                    //options.Converters.Add(new EventConverter());
-                    //options.Converters.Add(new OutingConverter());
                     var jsonData = JsonSerializer.Serialize(obj);
                     Console.WriteLine(jsonData);
                     var content = new StringContent(jsonData, System.Text.Encoding.UTF8, "application/json");
@@ -181,6 +169,24 @@ namespace EventsGenerator
             else
             {
                 throw new Exception("Couldn't get basic info about user");
+            }
+        }
+
+        public async Task<List<Event>> getAllEventsUserParticipatesTo(string userId)
+        {
+            string url = $"{apiUrl}/getEvents/user/{userId}";
+            var responseContent = await makeGetRequest(url);
+            if (responseContent != null)
+            {
+                JsonSerializerOptions options = new JsonSerializerOptions();
+                options.Converters.Add(new EventConverter());
+                options.Converters.Add(new OutingConverter());
+                List<Event> events = JsonSerializer.Deserialize<List<Event>>(responseContent, options);
+                return events;
+            }
+            else
+            {
+                throw new Exception("Couldn't get all events user is participating to");
             }
         }
 

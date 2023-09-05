@@ -11,14 +11,7 @@ namespace EventsGenerator.EventProcessors
 {
     public class AggresiveSkating : IAggresiveSkating
     {
-        //the updating the event right after join (join is done, in api, on method return update on
-        //generator with that event id should be called)
-        //every time some joins the event, the others that are still just recommended should be removed
-        //\\\\\or warned that some people who dont meet its criterias joined. - will not do.
-        //so it should be a group (people that joined + owner), this group should always
-        //be compatible one by one (this includes max nr of people, the event permits, should be kept
-        //the initial max number of skaters from aggresive event).
-        //filter by maximumNrOFPartners - event will dissapear from recomandation after all users joined
+        
 
         private static readonly string AggresiveSkatingStyle = "Aggresive Skating";
         private static readonly string CasualSkatingStyle = "Casual Skating";
@@ -94,11 +87,6 @@ namespace EventsGenerator.EventProcessors
                         EndTime = aggresiveEvent.Outing.EndTime, //intersection between this and joined schedules
                         Days = aggresiveEvent.Days, //intersection between this and joined schedules
                         VotedStartTime = aggresiveEvent.Outing.StartTime,
-                        //VotedDay = new Day
-                        //{
-                        //    Id = Guid.NewGuid().ToString(),
-                        //    DayOfMonth = aggresiveEvent.Days[0].DayOfMonth
-                        //},
                         SkatePracticeStyle = aggresiveEvent.Outing.SkatePracticeStyle, //not changing
                         Trail = aggresiveEvent.Outing.Trail, //not changing
                         Booked = aggresiveEvent.Outing.Booked //not changing
@@ -160,6 +148,7 @@ namespace EventsGenerator.EventProcessors
             // List<Schedules>
             double startTime = 0;
             double endTime = 0;
+            //_processingUtils.compareTimeStamps
             if (_processingUtils.getTimeAsDoubleFromTimestamp(schedule.StartTime) >= _processingUtils.getTimeAsDoubleFromTimestamp(evnt.Outing.EndTime)
                 || _processingUtils.getTimeAsDoubleFromTimestamp(schedule.EndTime) <= _processingUtils.getTimeAsDoubleFromTimestamp(evnt.Outing.StartTime))
             {
@@ -292,7 +281,7 @@ namespace EventsGenerator.EventProcessors
 
             List<Schedule> schedulesfilteredByAge = _eventProcessor.getSchedulesAgeCompatibleWithOwnerBothWays(aggresiveEvent, eventOwner, schedulesFilteredByGender);
 
-            List<Schedule> schedulesfilteredByTime = _eventProcessor.getSchedulesTimeCompatibleWithOwnerBothWays(aggresiveEvent, eventOwner, schedulesfilteredByAge);
+            List<Schedule> schedulesfilteredByTime = await _eventProcessor.getSchedulesTimeCompatibleWithOwnerBothWays(aggresiveEvent, eventOwner, schedulesfilteredByAge);
 
             List<Schedule> schedulesfilteredByDays = _eventProcessor.getSchedulesDaysCompatibleWithOwnerBothWays(aggresiveEvent, eventOwner, schedulesfilteredByTime);
 
@@ -320,10 +309,10 @@ namespace EventsGenerator.EventProcessors
             //check schedules by zone - done
             //check by skateExperience - done
 
-            if (_processingUtils.scheduleOwnerIsAlsoEventOwner(schedule, evnt) == true)
-            {
-                return false;
-            }
+            //if (_processingUtils.scheduleOwnerIsAlsoEventOwner(schedule, evnt) == true)
+            //{
+            //    return false;
+            //}
 
             string eventOwnerSkateProfileId = _processingUtils.getAggresiveEventsOwnerSkateProfileId(evnt);
             if (eventOwnerSkateProfileId == null)
@@ -355,7 +344,8 @@ namespace EventsGenerator.EventProcessors
             {
                 return false;
             }
-            if (_eventProcessor.isScheduleTimeCompatibleWithEvent(evnt, eventOwner, schedule, scheduleOwner) == false)
+            bool result = await _eventProcessor.isScheduleTimeCompatibleWithEvent(evnt, eventOwner, schedule, scheduleOwner);
+            if (result == false)
             {
                 return false;
             }

@@ -14,14 +14,14 @@ namespace EventsGenerator.EventProcessorsInterfaces
         bool isScheduleAgeCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
         bool isScheduleExperienceCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
         bool isScheduleGenderCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
-        bool isScheduleTimeCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
+        Task<bool> isScheduleTimeCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
         bool isScheduleDaysCompatibleWithEvent(Event evnt, User eventOwner, Schedule schedule, User scheduleOwner);
 
         ///FILTERS APPLIED ON SCHEDULES & AGGRESIVE EVENT
         List<Schedule> getSchedulesAgeCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
         Task<List<Schedule>> getSchedulesExperienceCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
         List<Schedule> getSchedulesGenderCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
-        List<Schedule> getSchedulesTimeCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
+        Task<List<Schedule>> getSchedulesTimeCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
         List<Schedule> getSchedulesDaysCompatibleWithOwnerBothWays(AggresiveEvent aggresiveEvent, User eventOwner, List<Schedule> schedules);
 
 
