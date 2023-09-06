@@ -236,6 +236,20 @@ namespace EventsGenerator.EventProcessors
             if (scheduleSuitable == true)
             {
                 SkateProfile skateProfileToAdd = await _fetch.getSkateProfile(schedule.SkateProfileId);
+                
+                
+                List<Schedule> schedules = await _fetch.getAllSchedules();
+                List<Schedule> schedulesForThisSkateProfile = new List<Schedule>();
+                foreach (Schedule sch in schedules)
+                {
+                    if(String.Equals(sch.SkateProfileId, schedule.SkateProfileId) == true)
+                    {
+                        schedulesForThisSkateProfile.Add(sch);
+                    }
+                }
+
+                skateProfileToAdd.Schedules = schedulesForThisSkateProfile;
+                
                 evnt.RecommendedSkateProfiles.Add(skateProfileToAdd);
                 evnt.ScheduleRefrences.Add(new ScheduleRefrence()
                 {
