@@ -106,8 +106,8 @@ namespace EventsGenerator.Utils
         }
         public async Task<bool> areTimeCompatible(Schedule schedule1, Schedule schedule2)
         {
-            List<Event> eventsOfUser1 = await _fetch.getAllEventsUserParticipatesTo(schedule1.SkateProfile.UserId);
-            List<Event> eventsOfUser2 = await _fetch.getAllEventsUserParticipatesTo(schedule2.SkateProfile.UserId);
+           // List<Event> eventsOfUser1 = await _fetch.getAllEventsUserParticipatesTo(schedule1.SkateProfile.UserId);
+           // List<Event> eventsOfUser2 = await _fetch.getAllEventsUserParticipatesTo(schedule2.SkateProfile.UserId);
             
             //if ( schedule1.EndTime < schedule2.StartTime || schedule2.EndTime < schedule1.StartTime)
             if (compareTimeStamps(schedule1.EndTime, schedule2.StartTime) < 0 || compareTimeStamps(schedule2.EndTime, schedule1.StartTime) < 0)

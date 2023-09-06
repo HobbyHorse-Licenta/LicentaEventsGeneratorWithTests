@@ -93,6 +93,48 @@ namespace EventsGenerator.EventProcessors
             return gender;
         }
 
+        public string getSkatingExperienceForPairing(List<Schedule> schedules)
+        {
+            Dictionary<string, int> experienceLevelDictionary = new Dictionary<string, int>()
+            {
+                {"Begginer",1 },
+                {"Advanced Begginer", 2 },
+                {"Intermediate",3 },
+                {"Advanced",4 }
+            };
+            int sum = 0;
+            if (schedules.Count > 0)
+            {
+                schedules.ForEach((schedule) =>
+                {
+                    if (schedule.SkateProfile != null)
+                    {
+                        sum += experienceLevelDictionary[schedule.SkateProfile.SkateExperience];
+                    }
+                });
+
+                int roundedAverage = (int)Math.Ceiling((double)sum/schedules.Count);
+                string skatingExperienceFound = null;
+
+                foreach (var keyvaluepair in experienceLevelDictionary)
+                {
+                    if (keyvaluepair.Value == roundedAverage)
+                    {
+                        skatingExperienceFound = keyvaluepair.Key;
+                        break; 
+                    }
+                }
+
+                if (skatingExperienceFound != null)
+                    return skatingExperienceFound;
+                else
+                    return "Begginer";
+            }
+            else return "Begginer";
+
+        }
+
+        
         public  int getMinimumAgeFromPairing(List<Schedule> schedules)
         {
             int minimumAge = int.MaxValue;
@@ -191,7 +233,7 @@ namespace EventsGenerator.EventProcessors
                         Name = "Event",
                         Note = "There is no note yet",
                         RecommendedSkateProfiles = _processingUtils.gettingSkateProfilesFromSchedules(pairing.Schedules),
-                        SkateExperience = "Advanced Begginer", //TODO: left to find out
+                        SkateExperience = getSkatingExperienceForPairing(pairing.Schedules),
                         Outing = outing
                     };
 
